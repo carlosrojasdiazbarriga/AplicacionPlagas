@@ -2,22 +2,40 @@ package com.example.aplicacionplagas
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Layout
 import android.util.Log
+import android.Manifest
+import android.app.ProgressDialog
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.aplicacionplagas.databinding.LayoutCapturarBinding
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.io.OutputStream
+import java.net.SocketTimeoutException
+import java.security.Permission
+import java.util.concurrent.TimeUnit
 
 
 class Capturar : AppCompatActivity() {
+    private val CAMERA_PERMISSION_REQUEST_CODE = 505
+    private val REQUEST_IMAGE_CAPTURE = 101
+    private val REQUEST_GALLERY_IMAGE = 404
 
+    private lateinit var progressDialog: ProgressDialog
     val binding : LayoutCapturarBinding by lazy { LayoutCapturarBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,27 +50,47 @@ class Capturar : AppCompatActivity() {
                 seleccionarImagenDeGaleria()
             }
             BCamara.setOnClickListener {
-
+                obtenerFotoCamara()
             }
+        }
+    }
+
+    private fun obtenerFotoCamara() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+            ) {
+            // Permission is not granted, request it
+            ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.CAMERA), CAMERA_PERMISSION_REQUEST_CODE
+            )
+        } else {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
         }
     }
 
     private fun seleccionarImagenDeGaleria() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
-        startActivityForResult(intent, 404)
+        startActivityForResult(intent, REQUEST_GALLERY_IMAGE)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 404 && resultCode == Activity.RESULT_OK) {
-            data?.data?.let { uri ->
-                val archivo = convertirUriAFile(uri)
-                if (archivo != null) {
-                    sendImageToAPI(archivo)
-                }
-            }
-        }
+    private fun crearArchivoImagen(): File {
+        // Create an image file name
+        val timeStamp: String = System.currentTimeMillis().toString()
+        val storageDir: File? = getExternalFilesDir(null)
+        return File.createTempFile(
+            "JPEG_${timeStamp}_", /* prefix */
+            ".jpg", /* suffix */
+            storageDir /* directory */
+        )
+    }
+
+    private fun guardarArchivo(bitmap: Bitmap, photoFile: File) {
+        val outputStream: OutputStream = FileOutputStream(photoFile)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        outputStream.flush()
+        outputStream.close()
     }
 
     private fun convertirUriAFile(uri: Uri): File? {
@@ -78,8 +116,15 @@ class Capturar : AppCompatActivity() {
         return null
     }
 
-    fun sendImageToAPI(imageFile: File) {
-        val client = OkHttpClient()
+    private fun sendImageToAPI(imageFile: File) {
+        val TIMEOUT_SECONDS = 10L
+        displayLoader()
+
+        val client = OkHttpClient.Builder()
+            .connectTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .readTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .writeTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .build()
 
         val requestBody = MultipartBody.Builder()
             .setType(MultipartBody.FORM)
@@ -98,16 +143,69 @@ class Capturar : AppCompatActivity() {
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
+                if (e is SocketTimeoutException) {
+                    Toast.makeText(this@Capturar, "Tiempo de espera agotado", Toast.LENGTH_SHORT).show()
+                }
+                hideLoader()
             }
 
             override fun onResponse(call: Call, response: Response) {
-                if( response.isSuccessful) {
-                    response.body?.string()?.let { Log.e("resultado", it) }
-                }else{
-                    Log.e("fallo",response.toString())
+                if (response.isSuccessful) {
+                    response.body?.string()?.let {
+                        val intent = Intent(this@Capturar, Resultado::class.java)
+                        intent.putExtra("resultado", it)
+                        startActivity(intent)
+                        Log.i("resultado", it)
+                    }
+                } else {
+                    Log.e("fallo", response.toString())
                 }
+                hideLoader()
             }
         })
+    }
+
+    private fun displayLoader() {
+        progressDialog = ProgressDialog(this)
+        progressDialog.apply {
+            setMessage("Analizando...")
+            setCancelable(false)
+            show()
+        }
+    }
+
+    private fun hideLoader() {
+        progressDialog.dismiss()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_GALLERY_IMAGE && resultCode == Activity.RESULT_OK) {
+            data?.data?.let { uri ->
+                val archivo = convertirUriAFile(uri)
+                if (archivo != null) {
+                    sendImageToAPI(archivo)
+                }
+            }
+        }
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+            val bitmap = data?.extras?.get("data") as Bitmap
+            val photoFile = crearArchivoImagen()
+            guardarArchivo(bitmap, photoFile)
+            sendImageToAPI(photoFile)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
+            } else {
+                Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
 }

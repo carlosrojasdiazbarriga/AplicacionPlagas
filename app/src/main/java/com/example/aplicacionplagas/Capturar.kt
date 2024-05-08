@@ -1,24 +1,22 @@
 package com.example.aplicacionplagas
 
+import android.Manifest
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.Layout
 import android.util.Log
-import android.Manifest
-import android.app.ProgressDialog
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.aplicacionplagas.data.Resultado
 import com.example.aplicacionplagas.databinding.LayoutCapturarBinding
+import com.google.gson.Gson
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import java.io.File
@@ -26,7 +24,6 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStream
 import java.net.SocketTimeoutException
-import java.security.Permission
 import java.util.concurrent.TimeUnit
 
 
@@ -144,7 +141,9 @@ class Capturar : AppCompatActivity() {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
                 if (e is SocketTimeoutException) {
-                    Toast.makeText(this@Capturar, "Tiempo de espera agotado", Toast.LENGTH_SHORT).show()
+                    runOnUiThread {
+                        Toast.makeText(this@Capturar, "Tiempo de espera agotado", Toast.LENGTH_SHORT).show()
+                    }
                 }
                 hideLoader()
             }
@@ -152,13 +151,57 @@ class Capturar : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
                     response.body?.string()?.let {
-                        val intent = Intent(this@Capturar, Resultado::class.java)
-                        intent.putExtra("resultado", it)
-                        startActivity(intent)
+                        traerDatosPlaga(it)
                         Log.i("resultado", it)
                     }
                 } else {
                     Log.e("fallo", response.toString())
+                    hideLoader()
+                }
+            }
+        })
+    }
+
+    private fun traerDatosPlaga(resultado: String) {
+        val result: Result = Gson().fromJson(resultado, Result::class.java)
+
+        val TIMEOUT_SECONDS = 10L
+
+        val client = OkHttpClient.Builder()
+            .connectTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .readTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .writeTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .build()
+
+        val request = Request.Builder()
+            .url("https://fastapi-jzsq5fw66a-wl.a.run.app/plagas/" + result.classProbabilities.obtenerCampoConProbabilidadMayor())
+            .build()
+
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                if (e is SocketTimeoutException) {
+                    runOnUiThread {
+                        Toast.makeText(this@Capturar, "Tiempo de espera agotado", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                hideLoader()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    val responseData = response.body?.string()
+                    if (!responseData.isNullOrEmpty()) {
+                        Log.i("resultado", responseData)
+                        val intent = Intent(this@Capturar, Resultado::class.java)
+                        intent.putExtra("resultado", responseData)
+                        startActivity(intent)
+                    } else {
+                        Log.e("error", "El cuerpo de la respuesta es nulo")
+                    }
+                } else {
+                    Log.e("error", response.message)
                 }
                 hideLoader()
             }

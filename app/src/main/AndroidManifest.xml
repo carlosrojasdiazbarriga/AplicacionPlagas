@@ -29,7 +29,7 @@
             android:name=".Capturar"
             android:exported="false" />
         <activity
-            android:name=".Resultado"
+            android:name=".data.Resultado"
             android:exported="false" />
     </application>
 

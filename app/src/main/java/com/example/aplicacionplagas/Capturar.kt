@@ -8,13 +8,13 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.aplicacionplagas.data.Resultado
 import com.example.aplicacionplagas.databinding.LayoutCapturarBinding
 import com.google.gson.Gson
 import okhttp3.*
@@ -24,6 +24,9 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStream
 import java.net.SocketTimeoutException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 
@@ -32,6 +35,7 @@ class Capturar : AppCompatActivity() {
     private val REQUEST_IMAGE_CAPTURE = 101
     private val REQUEST_GALLERY_IMAGE = 404
 
+    private lateinit var uriArchivo: Uri
     private lateinit var progressDialog: ProgressDialog
     val binding : LayoutCapturarBinding by lazy { LayoutCapturarBinding.inflate(layoutInflater) }
 
@@ -72,15 +76,15 @@ class Capturar : AppCompatActivity() {
         startActivityForResult(intent, REQUEST_GALLERY_IMAGE)
     }
 
-    private fun crearArchivoImagen(): File {
-        // Create an image file name
-        val timeStamp: String = System.currentTimeMillis().toString()
-        val storageDir: File? = getExternalFilesDir(null)
-        return File.createTempFile(
-            "JPEG_${timeStamp}_", /* prefix */
-            ".jpg", /* suffix */
-            storageDir /* directory */
-        )
+    private fun crearArchivoImagen(): File? {
+        if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
+            val imageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+            val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+            val imageName = "IMG_$timeStamp.jpg"
+            return File(imageDir, imageName)
+        } else {
+            return null
+        }
     }
 
     private fun guardarArchivo(bitmap: Bitmap, photoFile: File) {
@@ -115,6 +119,7 @@ class Capturar : AppCompatActivity() {
 
     private fun sendImageToAPI(imageFile: File) {
         val TIMEOUT_SECONDS = 10L
+        uriArchivo = Uri.fromFile(imageFile)
         displayLoader()
 
         val client = OkHttpClient.Builder()
@@ -196,6 +201,7 @@ class Capturar : AppCompatActivity() {
                         Log.i("resultado", responseData)
                         val intent = Intent(this@Capturar, Resultado::class.java)
                         intent.putExtra("resultado", responseData)
+                        intent.putExtra("uri", uriArchivo.toString())
                         startActivity(intent)
                     } else {
                         Log.e("error", "El cuerpo de la respuesta es nulo")
@@ -233,9 +239,11 @@ class Capturar : AppCompatActivity() {
         }
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
             val bitmap = data?.extras?.get("data") as Bitmap
-            val photoFile = crearArchivoImagen()
-            guardarArchivo(bitmap, photoFile)
-            sendImageToAPI(photoFile)
+            val archivo = crearArchivoImagen()
+            if (archivo != null){
+                guardarArchivo(bitmap, archivo)
+                sendImageToAPI(archivo)
+            }
         }
     }
 

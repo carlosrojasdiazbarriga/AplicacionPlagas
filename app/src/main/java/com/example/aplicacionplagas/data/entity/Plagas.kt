@@ -1,4 +1,4 @@
-package com.example.aplicacionplagas.data
+package com.example.aplicacionplagas.data.entity
 
 enum class Plagas(val nombreCorrecto: String) {
     Minador("Minador"),

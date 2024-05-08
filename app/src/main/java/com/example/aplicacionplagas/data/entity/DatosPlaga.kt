@@ -1,7 +1,8 @@
-package com.example.aplicacionplagas.data
+package com.example.aplicacionplagas.data.entity
+
 
 data class DatosPlaga (
-    val id: Int ,
+    val id: Int = 0,
     val nombre: String = "",
     val nombre_cientifico: String = "",
     val otros_nombres: List<String> = emptyList(),

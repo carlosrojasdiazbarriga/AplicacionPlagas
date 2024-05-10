@@ -1,4 +1,4 @@
-package com.example.aplicacionplagas
+package com.example.aplicacionplagas.ui
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -13,8 +13,8 @@ import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
 import com.example.aplicacionplagas.data.AppDatabase
-import com.example.aplicacionplagas.data.entity.DatosPlaga
-import com.example.aplicacionplagas.data.entity.Plagas
+import com.example.aplicacionplagas.data.DatosPlaga
+import com.example.aplicacionplagas.data.enums.Plagas
 import com.example.aplicacionplagas.data.entity.RegistroCaptura
 import com.example.aplicacionplagas.databinding.LayoutResultadoBinding
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -50,10 +50,12 @@ class Resultado : AppCompatActivity() {
         val plaga: DatosPlaga = Gson().fromJson(resultado, DatosPlaga::class.java)
 
         if (plaga.nombre != "sana" && uri != null){
-            binding.TPlaga.text = Plagas.obtenerNombreCorrecto(plaga.nombre)
-            binding.TDescripcion.text = plaga.descripcion
-            binding.TCombate.text = plaga.Metodos_de_eliminacion.joinToString("\n")
-            binding.IPlaga.setImageURI(uri)
+            binding.apply {
+                TPlaga.text = Plagas.obtenerNombreCorrecto(plaga.nombre)
+                TDescripcion.text = plaga.descripcion
+                TCombate.text = plaga.Metodos_de_eliminacion.joinToString("\n")
+                IPlaga.setImageURI(uri)
+            }
             guardarRegistro(plaga, uri)
         }
     }

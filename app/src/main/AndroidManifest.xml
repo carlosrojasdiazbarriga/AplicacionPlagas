@@ -20,7 +20,7 @@
         android:theme="@style/Theme.AplicacionPlagas"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,10 +28,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Capturar"
+            android:name=".ui.Capturar"
             android:exported="false" />
         <activity
-            android:name=".Resultado"
+            android:name=".ui.Resultado"
             android:exported="false" />
     </application>
 

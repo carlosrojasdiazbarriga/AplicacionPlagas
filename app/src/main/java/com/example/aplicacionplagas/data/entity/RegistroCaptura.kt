@@ -1,9 +1,9 @@
 package com.example.aplicacionplagas.data.entity
 
-import android.net.Uri
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.aplicacionplagas.data.DatosPlaga
 
 @Entity(tableName = "registros")
 data class RegistroCaptura(

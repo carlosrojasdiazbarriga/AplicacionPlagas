@@ -1,4 +1,4 @@
-package com.example.aplicacionplagas
+package com.example.aplicacionplagas.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     private fun inicializar() {
         binding.apply {
             BCapturar.setOnClickListener{
-                val intent = Intent(this@MainActivity,Capturar::class.java)
+                val intent = Intent(this@MainActivity, Capturar::class.java)
                 startActivity(intent)
             }
             BHistorial.setOnClickListener{

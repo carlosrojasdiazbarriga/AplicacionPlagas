@@ -1,4 +1,4 @@
-package com.example.aplicacionplagas
+package com.example.aplicacionplagas.data
 
 import com.google.gson.annotations.SerializedName
 

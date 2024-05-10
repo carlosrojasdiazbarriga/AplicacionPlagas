@@ -1,4 +1,4 @@
-package com.example.aplicacionplagas
+package com.example.aplicacionplagas.ui
 
 import android.Manifest
 import android.app.Activity
@@ -15,6 +15,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.aplicacionplagas.data.DatosPlaga
+import com.example.aplicacionplagas.data.Result
 import com.example.aplicacionplagas.databinding.LayoutCapturarBinding
 import com.google.gson.Gson
 import okhttp3.*
@@ -118,7 +120,7 @@ class Capturar : AppCompatActivity() {
     }
 
     private fun sendImageToAPI(imageFile: File) {
-        val TIMEOUT_SECONDS = 10L
+        val TIMEOUT_SECONDS = 15L
         uriArchivo = Uri.fromFile(imageFile)
         displayLoader()
 

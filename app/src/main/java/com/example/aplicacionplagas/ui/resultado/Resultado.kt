@@ -1,4 +1,4 @@
-package com.example.aplicacionplagas.ui
+package com.example.aplicacionplagas.ui.resultado
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -12,10 +12,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
-import com.example.aplicacionplagas.data.AppDatabase
+import com.example.aplicacionplagas.data.database.AppDatabase
 import com.example.aplicacionplagas.data.DatosPlaga
 import com.example.aplicacionplagas.data.enums.Plagas
-import com.example.aplicacionplagas.data.entity.RegistroCaptura
+import com.example.aplicacionplagas.data.database.entity.RegistroEntity
 import com.example.aplicacionplagas.databinding.LayoutResultadoBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -63,13 +63,13 @@ class Resultado : AppCompatActivity() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         obtenerUbicacionActual { ubicacion ->
-            val registro = RegistroCaptura(
-                plaga =  plaga.toString(),
+            val registro = RegistroEntity(
+                plaga =  Gson().toJson(plaga),
                 fotoUri = uri.toString(),
                 ubicacion = ubicacion
             )
             lifecycleScope.launch(Dispatchers.IO) {
-                db.registroDao().insertar(registro)
+                db.getRegistroDao().insertar(registro)
             }
             Log.d("Registro","Ubicación actual: $ubicacion")
         }

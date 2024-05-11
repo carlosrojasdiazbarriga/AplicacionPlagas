@@ -1,4 +1,4 @@
-package com.example.aplicacionplagas.ui
+package com.example.aplicacionplagas.ui.capturar
 
 import android.Manifest
 import android.app.Activity
@@ -15,9 +15,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.aplicacionplagas.data.DatosPlaga
 import com.example.aplicacionplagas.data.Result
 import com.example.aplicacionplagas.databinding.LayoutCapturarBinding
+import com.example.aplicacionplagas.ui.resultado.Resultado
 import com.google.gson.Gson
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull

@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
+        android:name=".AppPlagas"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -28,10 +29,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.Capturar"
+            android:name=".ui.capturar.Capturar"
             android:exported="false" />
         <activity
-            android:name=".ui.Resultado"
+            android:name=".ui.resultado.Resultado"
+            android:exported="false" />
+        <activity
+            android:name=".ui.historial.Historial"
+            android:exported="false" />
+        <activity android:name=".ui.detalle.Detalle"
             android:exported="false" />
     </application>
 

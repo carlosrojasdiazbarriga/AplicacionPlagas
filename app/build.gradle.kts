@@ -43,12 +43,17 @@ android {
 
 dependencies {
 
+    implementation(libs.material)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.material.v1110)
+    implementation(libs.androidx.ui.android)
+
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+
+    implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.navigation.fragment.ktx)
 
     implementation(libs.okhttp)
     implementation (libs.gson)
@@ -58,7 +63,12 @@ dependencies {
     implementation (libs.androidx.room.runtime)
     implementation(libs.androidx.room.common)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.transport.runtime)
     kapt(libs.androidx.room.compiler)
+
+    // Dagger Hilt
+    implementation (libs.dagger.hilt.android)
+    kapt (libs.hilt.android.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

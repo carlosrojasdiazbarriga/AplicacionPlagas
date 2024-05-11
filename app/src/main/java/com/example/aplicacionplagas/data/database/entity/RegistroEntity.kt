@@ -1,4 +1,4 @@
-package com.example.aplicacionplagas.data.entity
+package com.example.aplicacionplagas.data.database.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.example.aplicacionplagas.data.DatosPlaga
 
 @Entity(tableName = "registros")
-data class RegistroCaptura(
+data class RegistroEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id") val id : Long = 0,
     @ColumnInfo(name = "plaga") val plaga : String = DatosPlaga().toString(),

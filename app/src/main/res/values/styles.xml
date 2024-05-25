@@ -2,6 +2,69 @@
 <resources>
 
     <style name="Titulos">
-        <item name="android:textSize">32sp</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="Cabecera">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/manrope_regular</item>
+    </style>
+    <style name="Subtitulos">
+        <item name="android:textSize">24sp</item>
+    </style>
+    <style name="Subtitulo_t">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/texto</item>
+        <item name="android:fontFamily">@font/manrope_regular</item>
+    </style>
+    <style name="Subtitulos_contenido">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/manrope_regular</item>
+    </style>
+    <style name="Indices">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/texto</item>
+        <item name="android:fontFamily">@font/manrope_regular</item>
+    </style>
+    <style name="Descripcion">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/texto</item>
+        <item name="android:fontFamily">@font/manrope_regular</item>
+    </style>
+    <style name="Contenido">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/texto_descripcion</item>
+        <item name="android:fontFamily">@font/manrope_regular</item>
+    </style>
+    <style name="Botones" parent="Widget.Material3.Button">
+        <item name="android:textSize">16sp</item>
+        <item name="backgroundTint">#14B814</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:fontFamily">@font/manrope_bold</item>
+        <item name="background">@drawable/shape_button</item>
+        <item name="iconTint">@color/white</item>
+</style>
+    <style name="Botones_secundarios" parent="Widget.Material3.Button">
+        <item name="android:textSize">16sp</item>
+        <item name="backgroundTint">#F0F5F0</item>
+        <item name="android:textColor">#121712</item>
+        <item name="android:fontFamily">@font/manrope_bold</item>
+        <item name="background">@drawable/shape_button</item>
+        <item name="iconTint">#121712</item>
+</style>
+    <style name="Nombre_plaga_item">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/texto</item>
+        <item name="android:fontFamily">@font/manrope_bold</item>
+    </style>
+    <style name="Dato_plaga_item">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/texto_descripcion</item>
+        <item name="android:fontFamily">@font/manrope_regular</item>
     </style>
 </resources>

@@ -2,15 +2,15 @@ package com.example.aplicacionplagas.ui.historial
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.GridLayoutManager
-import com.example.aplicacionplagas.data.database.entity.RegistroEntity
-import com.example.aplicacionplagas.databinding.LayoutHistorialBinding
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.example.aplicacionplagas.data.database.AppDatabase
+import com.example.aplicacionplagas.data.database.entity.RegistroEntity
+import com.example.aplicacionplagas.databinding.LayoutHistorialBinding
 import com.example.aplicacionplagas.ui.detalle.Detalle
 
 class Historial : AppCompatActivity(){
@@ -59,7 +59,7 @@ class Historial : AppCompatActivity(){
             }
         })
         binding.rvHistorial.adapter = historialAdapter
-        binding.rvHistorial.layoutManager = GridLayoutManager(this, 2)
+        binding.rvHistorial.layoutManager = LinearLayoutManager(this)
 
     }
 }

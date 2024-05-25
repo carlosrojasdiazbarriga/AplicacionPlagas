@@ -15,8 +15,6 @@ import com.example.aplicacionplagas.data.DatosPlaga
 import com.example.aplicacionplagas.data.database.entity.RegistroEntity
 import com.example.aplicacionplagas.util.DateHelper
 import com.google.gson.Gson
-import com.google.gson.JsonObject
-import com.google.gson.reflect.TypeToken
 
 class HistorialAdapter : ListAdapter<RegistroEntity, HistorialAdapter.ViewHolder>(DiffCallback) {
     private lateinit var onItemClicked : OnItemClickedRegistro
@@ -29,7 +27,7 @@ class HistorialAdapter : ListAdapter<RegistroEntity, HistorialAdapter.ViewHolder
             val tvFecha = itemView.findViewById<TextView>(R.id.tv_fecha)
             val tvUbicacion = itemView.findViewById<TextView>(R.id.tv_ubicacion)
             val imgFoto = itemView.findViewById<ImageView>(R.id.img_foto_plaga)
-            val contenedor = itemView.findViewById<View>(R.id.lyt_item_registro)
+            val contenedor = itemView.findViewById<View>(R.id.mcv_plaga_item)
 
             tvNombre.text = datos.nombre
             tvUbicacion.text = registroCaptura.ubicacion

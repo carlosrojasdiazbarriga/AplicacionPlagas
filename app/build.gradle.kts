@@ -66,9 +66,6 @@ dependencies {
     implementation(libs.transport.runtime)
     kapt(libs.androidx.room.compiler)
 
-    // Dagger Hilt
-    implementation (libs.dagger.hilt.android)
-    kapt (libs.hilt.android.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

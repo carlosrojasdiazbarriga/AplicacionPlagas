@@ -7,33 +7,43 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:padding="32dp">
+        android:background="@color/white">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Historial"
-            android:textSize="24sp"/>
+            android:id="@+id/tv_titulo"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center"
+            style="@style/Cabecera"
+            android:text="Historial de plagas" />
 
         <TextView
+            style="@style/Subtitulo_t"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:text="Cuentas con # identificaciones"/>
 
-        <androidx.recyclerview.widget.RecyclerView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginVertical="16dp"
-            tools:listitem="@layout/item_registro"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
-            android:id="@+id/rv_historial"/>
+            android:layout_marginHorizontal="16dp">
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/item_registro"
+                tools:itemCount="10"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:id="@+id/rv_historial"/>
+        </androidx.core.widget.NestedScrollView>
 
         <Button
-            android:layout_width="wrap_content"
+            style="@style/Botones_secundarios"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Limpiar"
+            android:layout_margin="16dp"
+            android:text="Limpiar Historial"
             android:id="@+id/btn_limpiar"/>
     </LinearLayout>
 </layout>

@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">AplicacionPlagas</string>
+    <string name="galeria">Galeria</string>
+    <string name="selecciona_el_modo_de_captura">Toma una foto o selecciona una imagen de tu galeria</string>
+    <string name="capturar">Capturar</string>
+    <string name="historial">Historial</string>
+    <string name="prevenir">Prevenir</string>
+    <string name="bienvenida_menu">Bienvenido a la aplicación de identificación de plagas en huertos</string>
+    <string name="descripcion_app">Identificar y saber mas sobre las plagas que hay en tu huerto, a tan solo una foto</string>
+    <string name="identificador_de_plagas">Identificador de Plagas</string>
+    <string name="m_todos_de_combate">Tratamiento</string>
+    <string name="descripci_n_de_los_m_todos_de_combate">Descripción de los métodos de combate</string>
+    <string name="regresar">Regresar</string>
+    <string name="descripci_nde_la_plaga">Descripciónde la plaga</string>
+    <string name="plaga_identificada">Plaga identificada</string>
 </resources>

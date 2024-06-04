@@ -55,6 +55,7 @@ class Historial : AppCompatActivity(){
             override fun onItemClicked(registro: RegistroEntity) {
                 val intent = Intent(this@Historial, Detalle::class.java)
                 intent.putExtra("id", registro.id)
+                intent.putExtra("nombre", registro.plaga)
                 startActivity(intent)
             }
         })

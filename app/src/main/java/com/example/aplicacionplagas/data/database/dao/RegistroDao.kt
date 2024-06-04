@@ -16,4 +16,6 @@ interface RegistroDao {
     @Query("SELECT * FROM registros")
     suspend fun obtenerRegistros(): List<RegistroEntity>
 
+    @Query("SELECT * FROM registros WHERE id = :id")
+    suspend fun obtenerRegistroConId(id : Long): RegistroEntity
 }

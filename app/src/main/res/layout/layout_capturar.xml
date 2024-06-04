@@ -13,6 +13,7 @@
             style="@style/Titulos"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="50dp"
+            android:textAlignment="center"
             android:text="@string/selecciona_el_modo_de_captura"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout"
             app:layout_constraintEnd_toEndOf="parent"
@@ -31,20 +32,23 @@
 
             <ImageButton
                 android:id="@+id/BCamara"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:background="@drawable/shape_button"
-                android:backgroundTint="@color/fondo_verde_claro"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginBottom="15dp"
-                app:srcCompat="@android:drawable/ic_menu_camera" />
+                android:scaleType="centerCrop"
+                android:layout_margin="24dp"
+                android:padding="4dp"
+                app:srcCompat="@drawable/img_camera" />
 
             <Button
                 android:id="@+id/BGaleria"
                 style="@style/Botones"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:elevation="10dp"
-                android:text="@string/galeria" />
+                app:icon="@android:drawable/ic_menu_gallery"
+                android:text="@string/galeria"
+                android:layout_gravity="center"/>
 
         </LinearLayout>
 

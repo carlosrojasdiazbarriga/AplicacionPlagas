@@ -41,6 +41,8 @@
             android:exported="false" />
         <activity android:name=".ui.detalle.Detalle"
             android:exported="false" />
+        <activity android:name=".ui.resultado_alterno.IdentificacionAlterna"
+            android:exported="false" />
     </application>
 
 </manifest>

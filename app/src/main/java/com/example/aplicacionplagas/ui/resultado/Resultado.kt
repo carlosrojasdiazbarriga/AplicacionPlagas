@@ -1,6 +1,7 @@
 package com.example.aplicacionplagas.ui.resultado
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
@@ -17,6 +18,7 @@ import com.example.aplicacionplagas.data.database.AppDatabase
 import com.example.aplicacionplagas.data.database.entity.RegistroEntity
 import com.example.aplicacionplagas.data.enums.Plagas
 import com.example.aplicacionplagas.databinding.LayoutResultadoBinding
+import com.example.aplicacionplagas.ui.resultado_alterno.IdentificacionAlterna
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.gson.Gson
@@ -54,6 +56,13 @@ class Resultado : AppCompatActivity() {
     private fun traerDatosPlaga() {
         val resultado = intent.getStringExtra("resultado")
         val uri = intent.getStringExtra("uri")?.toUri()
+
+        if (resultado!!.contains("sana")) {
+            val intent = Intent(this, IdentificacionAlterna::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         val plaga: DatosPlaga = Gson().fromJson(resultado, DatosPlaga::class.java)
 
         if (plaga.nombre != "sana" && uri != null){

@@ -12,10 +12,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
-import com.example.aplicacionplagas.data.database.AppDatabase
 import com.example.aplicacionplagas.data.DatosPlaga
-import com.example.aplicacionplagas.data.enums.Plagas
+import com.example.aplicacionplagas.data.database.AppDatabase
 import com.example.aplicacionplagas.data.database.entity.RegistroEntity
+import com.example.aplicacionplagas.data.enums.Plagas
 import com.example.aplicacionplagas.databinding.LayoutResultadoBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -42,6 +42,13 @@ class Resultado : AppCompatActivity() {
         ).build()
 
         traerDatosPlaga()
+        initListeners()
+    }
+
+    private fun initListeners() {
+        binding.button.setOnClickListener{
+            finish()
+        }
     }
 
     private fun traerDatosPlaga() {

@@ -1,34 +1,15 @@
 package com.example.aplicacionplagas.ui.detalle
 
 import android.app.ProgressDialog
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
-import androidx.room.Room
 import com.example.aplicacionplagas.data.DatosPlaga
-import com.example.aplicacionplagas.data.ProbabilidadesPlaga
-import com.example.aplicacionplagas.data.Result
-import com.example.aplicacionplagas.data.database.AppDatabase
 import com.example.aplicacionplagas.data.database.entity.RegistroEntity
-import com.example.aplicacionplagas.data.database.entity.obtenerNombreServicio
 import com.example.aplicacionplagas.data.enums.Plagas
 import com.example.aplicacionplagas.databinding.LayoutResultadoBinding
-import com.example.aplicacionplagas.ui.resultado.Resultado
 import com.google.gson.Gson
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-import java.io.IOException
-import java.net.SocketTimeoutException
-import java.net.URI
-import java.util.concurrent.TimeUnit
 
 class Detalle : AppCompatActivity(){
     private val viewModel: DetalleViewModel by viewModels()
@@ -42,8 +23,15 @@ class Detalle : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        initListeners()
         displayLoader()
         traerRegistroPlaga()
+    }
+
+    private fun initListeners() {
+        binding.button.setOnClickListener {
+            finish()
+        }
     }
 
     private fun traerRegistroPlaga() {
@@ -63,9 +51,7 @@ class Detalle : AppCompatActivity(){
         binding.apply {
             TPlaga.text = Plagas.obtenerNombreCorrecto(datosPlaga.nombre)
             TDescripcion.text = datosPlaga.descripcion
-            for (metodo in datosPlaga.Metodos_de_eliminacion) {
-                TCombate.append("\n$metodo")
-            }
+            TCombate.text = datosPlaga.Metodos_de_eliminacion.joinToString("\n")
             IPlaga.setImageURI(registro.fotoUri.toUri())
         }
     }

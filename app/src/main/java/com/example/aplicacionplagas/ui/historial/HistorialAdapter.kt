@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
@@ -28,6 +29,7 @@ class HistorialAdapter : ListAdapter<RegistroEntity, HistorialAdapter.ViewHolder
             val tvUbicacion = itemView.findViewById<TextView>(R.id.tv_ubicacion)
             val imgFoto = itemView.findViewById<ImageView>(R.id.img_foto_plaga)
             val contenedor = itemView.findViewById<View>(R.id.mcv_plaga_item)
+            val btnEliminar = itemView.findViewById<Button>(R.id.btn_eliminar_registro)
 
             tvNombre.text = datos.nombre
             tvUbicacion.text = registroCaptura.ubicacion
@@ -36,6 +38,9 @@ class HistorialAdapter : ListAdapter<RegistroEntity, HistorialAdapter.ViewHolder
 
             contenedor.setOnClickListener {
                 listener.onItemClicked(registroCaptura)
+            }
+            btnEliminar.setOnClickListener {
+                listener.onItemDeleted(registroCaptura)
             }
         }
     }

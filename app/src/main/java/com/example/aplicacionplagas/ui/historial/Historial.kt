@@ -58,6 +58,10 @@ class Historial : AppCompatActivity(){
                 intent.putExtra("nombre", registro.plaga)
                 startActivity(intent)
             }
+
+            override fun onItemDeleted(registroCaptura: RegistroEntity) {
+                viewModel.deleteRegistro(registroCaptura)
+            }
         })
         binding.rvHistorial.adapter = historialAdapter
         binding.rvHistorial.layoutManager = LinearLayoutManager(this)

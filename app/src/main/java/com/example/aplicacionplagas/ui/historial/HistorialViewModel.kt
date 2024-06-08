@@ -21,4 +21,16 @@ class HistorialViewModel(private val dao : RegistroDao) : ViewModel() {
             }
         }
     }
+
+    fun deleteRegistro(registroCaptura: RegistroEntity) {
+        viewModelScope.launch {
+            try {
+                dao.eliminarRegistro(registroCaptura)
+                val registros = dao.obtenerRegistros()
+                historial.value = registros
+            }catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 }

@@ -61,6 +61,7 @@
                 </LinearLayout>
             </LinearLayout>
             <Button
+                android:id="@+id/btn_eliminar_registro"
                 style="@style/Botones"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

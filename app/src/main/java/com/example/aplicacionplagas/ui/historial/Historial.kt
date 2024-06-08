@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
+import com.example.aplicacionplagas.R
 import com.example.aplicacionplagas.data.database.AppDatabase
 import com.example.aplicacionplagas.data.database.entity.RegistroEntity
 import com.example.aplicacionplagas.databinding.LayoutHistorialBinding
@@ -38,14 +39,22 @@ class Historial : AppCompatActivity(){
             AppDatabase::class.java, "database-name"
         ).build()
 
+        initListeners()
         observarDatos()
         setRecyclerView()
+    }
+
+    private fun initListeners() {
+        binding.btnLimpiar.setOnClickListener{
+            viewModel.limpiarHistorial()
+        }
     }
 
     private fun observarDatos() {
         viewModel.getRegistros()
         viewModel.historial.observe(this) {
             historialAdapter.submitList(it)
+            binding.tvCantidadRegistros.text = getString(R.string.cuentas_con_identificaciones, it.size.toString())
         }
     }
 

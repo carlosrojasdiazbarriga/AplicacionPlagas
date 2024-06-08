@@ -18,11 +18,12 @@
             android:text="Historial de plagas" />
 
         <TextView
+            android:id="@+id/tv_cantidad_registros"
             style="@style/Subtitulo_t"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="Cuentas con # identificaciones"/>
+            android:text="@string/cuentas_con_identificaciones"/>
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"

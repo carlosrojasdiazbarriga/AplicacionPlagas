@@ -13,4 +13,5 @@
     <string name="regresar">Regresar</string>
     <string name="descripci_nde_la_plaga">Descripciónde la plaga</string>
     <string name="plaga_identificada">Plaga identificada</string>
+    <string name="cuentas_con_identificaciones">Cuentas con %s identificaciones</string>
 </resources>

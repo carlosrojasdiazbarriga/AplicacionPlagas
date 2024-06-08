@@ -21,4 +21,8 @@ interface RegistroDao {
     suspend fun obtenerRegistroConId(id : Long): RegistroEntity
     @Delete
     suspend fun eliminarRegistro(registroCaptura: RegistroEntity)
+
+    @Query("DELETE FROM registros")
+    suspend fun limpiarRegistros()
+
 }

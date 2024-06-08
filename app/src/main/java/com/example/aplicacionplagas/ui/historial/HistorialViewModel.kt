@@ -33,4 +33,16 @@ class HistorialViewModel(private val dao : RegistroDao) : ViewModel() {
             }
         }
     }
+
+    fun limpiarHistorial(){
+        viewModelScope.launch {
+            try{
+                dao.limpiarRegistros()
+                val registros = dao.obtenerRegistros()
+                historial.value = registros
+            }catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 }

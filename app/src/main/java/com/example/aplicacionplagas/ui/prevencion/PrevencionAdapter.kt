@@ -10,7 +10,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aplicacionplagas.R
-import com.example.aplicacionplagas.ui.prevencion_detalle.DetallePlagaActivity
+import com.example.aplicacionplagas.ui.prevencion_detalle.DetallePrevencionActivity
+import com.example.aplicacionplagas.util.ImageHelper
 
 
 class PrevencionAdapter(
@@ -38,15 +39,13 @@ class PrevencionAdapter(
         holder.nombre.text = item.first
 
         holder.tarjeta.setOnClickListener {
-            val intent = Intent(context, DetallePlagaActivity::class.java)
+            val intent = Intent(context, DetallePrevencionActivity::class.java)
             intent.putExtra("nombre", item.first)
             context.startActivity(intent)
         }
 
-        val imageResId = context.resources.getIdentifier(item.second, "raw", context.packageName)
-        if (imageResId != 0) {
-            val imageStream = context.resources.openRawResource(imageResId)
-            val bitmap = BitmapFactory.decodeStream(imageStream)
+        val bitmap = ImageHelper.getImageBitmapByResId(context, item.second)
+        if (bitmap != null) {
             holder.imagen.setImageBitmap(bitmap)
         } else {
             holder.imagen.setImageResource(R.drawable.ic_launcher_background)

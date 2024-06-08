@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.aplicacionplagas.databinding.ActivityMainBinding
 import com.example.aplicacionplagas.ui.capturar.Capturar
 import com.example.aplicacionplagas.ui.historial.Historial
+import com.example.aplicacionplagas.ui.prevencion.Prevenir
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,7 +29,8 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
             BPrevenir.setOnClickListener{
-
+                val intent = Intent(this@MainActivity, Prevenir::class.java)
+                startActivity(intent)
             }
         }
     }

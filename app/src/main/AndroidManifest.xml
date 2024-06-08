@@ -43,6 +43,10 @@
             android:exported="false" />
         <activity android:name=".ui.resultado_alterno.IdentificacionAlterna"
             android:exported="false" />
+        <activity android:name=".ui.prevencion.Prevenir"
+            android:exported="false" />
+        <activity android:name=".ui.prevencion_detalle.DetallePlagaActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

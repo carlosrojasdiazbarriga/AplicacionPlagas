@@ -2,7 +2,9 @@ package com.example.aplicacionplagas.ui.historial
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -46,8 +48,29 @@ class Historial : AppCompatActivity(){
 
     private fun initListeners() {
         binding.btnLimpiar.setOnClickListener{
-            viewModel.limpiarHistorial()
+            showConfirmationDialog()
         }
+    }
+
+    private fun showConfirmationDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_confirmacion, null)
+
+        val dialogBuilder = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
+
+        val cancelButton: Button = dialogView.findViewById(R.id.cancel_button)
+        val deleteButton: Button = dialogView.findViewById(R.id.delete_button)
+
+        cancelButton.setOnClickListener {
+            dialogBuilder.dismiss()
+        }
+
+        deleteButton.setOnClickListener {
+            showConfirmationDialog()
+        }
+
+        dialogBuilder.show()
     }
 
     private fun observarDatos() {

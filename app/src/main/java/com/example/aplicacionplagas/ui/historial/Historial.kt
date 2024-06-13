@@ -48,11 +48,11 @@ class Historial : AppCompatActivity(){
 
     private fun initListeners() {
         binding.btnLimpiar.setOnClickListener{
-            showConfirmationDialog()
+            showConfirmationDialog(null)
         }
     }
 
-    private fun showConfirmationDialog() {
+    private fun showConfirmationDialog(registro : RegistroEntity?) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_confirmacion, null)
 
         val dialogBuilder = AlertDialog.Builder(this)
@@ -67,7 +67,12 @@ class Historial : AppCompatActivity(){
         }
 
         deleteButton.setOnClickListener {
-            showConfirmationDialog()
+            if (registro != null) {
+                viewModel.deleteRegistro(registro)
+            }else{
+                viewModel.limpiarHistorial()
+            }
+            dialogBuilder.dismiss()
         }
 
         dialogBuilder.show()
@@ -92,7 +97,7 @@ class Historial : AppCompatActivity(){
             }
 
             override fun onItemDeleted(registroCaptura: RegistroEntity) {
-                viewModel.deleteRegistro(registroCaptura)
+                showConfirmationDialog(registroCaptura)
             }
         })
         binding.rvHistorial.adapter = historialAdapter

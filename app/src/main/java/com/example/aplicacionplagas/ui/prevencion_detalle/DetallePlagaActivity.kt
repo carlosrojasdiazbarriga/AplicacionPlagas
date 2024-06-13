@@ -33,6 +33,13 @@ class DetallePrevencionActivity : AppCompatActivity() {
         desplegarDatosGuardados()
         observarEstadoConsulta()
         getInformacionPlaga()
+        initListeners()
+    }
+
+    private fun initListeners() {
+        binding.button.setOnClickListener {
+            finish()
+        }
     }
 
     private fun desplegarDatosGuardados() {

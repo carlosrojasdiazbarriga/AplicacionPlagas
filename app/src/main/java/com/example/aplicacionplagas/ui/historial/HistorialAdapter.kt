@@ -21,6 +21,7 @@ class HistorialAdapter : ListAdapter<RegistroEntity, HistorialAdapter.ViewHolder
     private lateinit var onItemClicked : OnItemClickedRegistro
     class ViewHolder(view : View) : RecyclerView.ViewHolder(view) {
         fun bind(registroCaptura: RegistroEntity, listener: OnItemClickedRegistro) {
+
             Log.d("Datos", registroCaptura.plaga)
             val datos = Gson().fromJson(registroCaptura.plaga, DatosPlaga::class.java)
 
@@ -68,6 +69,11 @@ class HistorialAdapter : ListAdapter<RegistroEntity, HistorialAdapter.ViewHolder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position), onItemClicked)
+
+        try {
+            holder.bind(getItem(position), onItemClicked)
+        }catch (e: com.google.gson.JsonSyntaxException){
+            println("Error parsing JSON: ${e.message}")
+        }
     }
 }
